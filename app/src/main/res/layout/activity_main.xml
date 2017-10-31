@@ -6,17 +6,17 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+    <!--<include-->
+    <!--android:id="@+id/toolbar"-->
+    <!--layout="@layout/toolbar"/> -->
 
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/primary"
-        android:textColor="@color/white"
         android:elevation="4dp"
+        android:textColor="@color/white"
         app:pstsIndicatorColor="@color/tab_strip"
         app:pstsIndicatorHeight="@dimen/tab_indicator_height"
         app:pstsShouldExpand="true"/>

@@ -1,4 +1,4 @@
-package com.danielkim.soundrecorder.fragments;
+package com.ayanne.soundrecorder.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.danielkim.soundrecorder.R;
-import com.danielkim.soundrecorder.RecordingService;
+import com.ayanne.soundrecorder.R;
+import com.ayanne.soundrecorder.RecordingService;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.io.File;
@@ -31,21 +31,19 @@ public class RecordFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_POSITION = "position";
     private static final String LOG_TAG = RecordFragment.class.getSimpleName();
-
+    long timeWhenPaused = 0; //stores time when user clicks pause button
     private int position;
-
     //Recording controls
     private FloatingActionButton mRecordButton = null;
     private Button mPauseButton = null;
-
     private TextView mRecordingPrompt;
     private int mRecordPromptCount = 0;
-
     private boolean mStartRecording = true;
     private boolean mPauseRecording = true;
-
     private Chronometer mChronometer = null;
-    long timeWhenPaused = 0; //stores time when user clicks pause button
+
+    public RecordFragment() {
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -60,9 +58,6 @@ public class RecordFragment extends Fragment {
         f.setArguments(b);
 
         return f;
-    }
-
-    public RecordFragment() {
     }
 
     @Override

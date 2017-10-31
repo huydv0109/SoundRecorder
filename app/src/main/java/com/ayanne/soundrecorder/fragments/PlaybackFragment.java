@@ -1,4 +1,4 @@
-package com.danielkim.soundrecorder.fragments;
+package com.ayanne.soundrecorder.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -16,8 +16,8 @@ import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.danielkim.soundrecorder.R;
-import com.danielkim.soundrecorder.RecordingItem;
+import com.ayanne.soundrecorder.R;
+import com.ayanne.soundrecorder.RecordingItem;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.io.IOException;
@@ -31,24 +31,37 @@ public class PlaybackFragment extends DialogFragment{
     private static final String LOG_TAG = "PlaybackFragment";
 
     private static final String ARG_ITEM = "recording_item";
+    //stores minutes and seconds of the length of the file.
+    long minutes = 0;
+    long seconds = 0;
     private RecordingItem item;
-
     private Handler mHandler = new Handler();
-
     private MediaPlayer mMediaPlayer = null;
-
     private SeekBar mSeekBar = null;
     private FloatingActionButton mPlayButton = null;
     private TextView mCurrentProgressTextView = null;
     private TextView mFileNameTextView = null;
     private TextView mFileLengthTextView = null;
-
     //stores whether or not the mediaplayer is currently playing audio
     private boolean isPlaying = false;
+    //updating mSeekBar
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mMediaPlayer != null) {
 
-    //stores minutes and seconds of the length of the file.
-    long minutes = 0;
-    long seconds = 0;
+                int mCurrentPosition = mMediaPlayer.getCurrentPosition();
+                mSeekBar.setProgress(mCurrentPosition);
+
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(mCurrentPosition);
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition)
+                        - TimeUnit.MINUTES.toSeconds(minutes);
+                mCurrentProgressTextView.setText(String.format("%02d:%02d", minutes, seconds));
+
+                updateSeekBar();
+            }
+        }
+    };
 
     public PlaybackFragment newInstance(RecordingItem item) {
         PlaybackFragment f = new PlaybackFragment();
@@ -294,25 +307,6 @@ public class PlaybackFragment extends DialogFragment{
         //allow the screen to turn off again once audio is finished playing
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
-
-    //updating mSeekBar
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if(mMediaPlayer != null){
-
-                int mCurrentPosition = mMediaPlayer.getCurrentPosition();
-                mSeekBar.setProgress(mCurrentPosition);
-
-                long minutes = TimeUnit.MILLISECONDS.toMinutes(mCurrentPosition);
-                long seconds = TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition)
-                        - TimeUnit.MINUTES.toSeconds(minutes);
-                mCurrentProgressTextView.setText(String.format("%02d:%02d", minutes, seconds));
-
-                updateSeekBar();
-            }
-        }
-    };
 
     private void updateSeekBar() {
         mHandler.postDelayed(mRunnable, 1000);

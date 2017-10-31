@@ -1,4 +1,4 @@
-package com.danielkim.soundrecorder;
+package com.ayanne.soundrecorder;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,6 +20,6 @@ public class MySharedPreferences {
 
     public static boolean getPrefHighQuality(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getBoolean(PREF_HIGH_QUALITY, false);
+        return preferences.getBoolean(PREF_HIGH_QUALITY, true);
     }
 }

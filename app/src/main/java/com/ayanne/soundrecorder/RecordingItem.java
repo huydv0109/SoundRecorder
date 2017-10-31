@@ -1,4 +1,4 @@
-package com.danielkim.soundrecorder;
+package com.ayanne.soundrecorder;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,6 +7,15 @@ import android.os.Parcelable;
  * Created by Daniel on 12/30/2014.
  */
 public class RecordingItem implements Parcelable {
+    public static final Parcelable.Creator<RecordingItem> CREATOR = new Parcelable.Creator<RecordingItem>() {
+        public RecordingItem createFromParcel(Parcel in) {
+            return new RecordingItem(in);
+        }
+
+        public RecordingItem[] newArray(int size) {
+            return new RecordingItem[size];
+        }
+    };
     private String mName; // file name
     private String mFilePath; //file path
     private int mId; //id in database
@@ -64,16 +73,6 @@ public class RecordingItem implements Parcelable {
     public void setTime(long time) {
         mTime = time;
     }
-
-    public static final Parcelable.Creator<RecordingItem> CREATOR = new Parcelable.Creator<RecordingItem>() {
-        public RecordingItem createFromParcel(Parcel in) {
-            return new RecordingItem(in);
-        }
-
-        public RecordingItem[] newArray(int size) {
-            return new RecordingItem[size];
-        }
-    };
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {

@@ -1,4 +1,4 @@
-package com.danielkim.soundrecorder.fragments;
+package com.ayanne.soundrecorder.fragments;
 
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -6,10 +6,10 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 
-import com.danielkim.soundrecorder.BuildConfig;
-import com.danielkim.soundrecorder.MySharedPreferences;
-import com.danielkim.soundrecorder.R;
-import com.danielkim.soundrecorder.activities.SettingsActivity;
+import com.ayanne.soundrecorder.BuildConfig;
+import com.ayanne.soundrecorder.MySharedPreferences;
+import com.ayanne.soundrecorder.R;
+import com.ayanne.soundrecorder.activities.SettingsActivity;
 
 /**
  * Created by Daniel on 5/22/2017.

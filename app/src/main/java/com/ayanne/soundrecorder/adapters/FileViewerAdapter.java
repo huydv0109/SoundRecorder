@@ -1,4 +1,4 @@
-package com.danielkim.soundrecorder.adapters;
+package com.ayanne.soundrecorder.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,18 +18,16 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.text.format.DateUtils;
 
-import com.danielkim.soundrecorder.DBHelper;
-import com.danielkim.soundrecorder.R;
-import com.danielkim.soundrecorder.RecordingItem;
-import com.danielkim.soundrecorder.fragments.PlaybackFragment;
-import com.danielkim.soundrecorder.listeners.OnDatabaseChangedListener;
+import com.ayanne.soundrecorder.DBHelper;
+import com.ayanne.soundrecorder.R;
+import com.ayanne.soundrecorder.RecordingItem;
+import com.ayanne.soundrecorder.fragments.PlaybackFragment;
+import com.ayanne.soundrecorder.listeners.OnDatabaseChangedListener;
 
 import java.io.File;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Daniel on 12/29/2014.
@@ -37,12 +36,10 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
     implements OnDatabaseChangedListener{
 
     private static final String LOG_TAG = "FileViewerAdapter";
-
-    private DBHelper mDatabase;
-
     RecordingItem item;
     Context mContext;
     LinearLayoutManager llm;
+    private DBHelper mDatabase;
 
     public FileViewerAdapter(Context context, LinearLayoutManager linearLayoutManager) {
         super();
@@ -144,21 +141,6 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
         mContext = parent.getContext();
 
         return new RecordingsViewHolder(itemView);
-    }
-
-    public static class RecordingsViewHolder extends RecyclerView.ViewHolder {
-        protected TextView vName;
-        protected TextView vLength;
-        protected TextView vDateAdded;
-        protected View cardView;
-
-        public RecordingsViewHolder(View v) {
-            super(v);
-            vName = (TextView) v.findViewById(R.id.file_name_text);
-            vLength = (TextView) v.findViewById(R.id.file_length_text);
-            vDateAdded = (TextView) v.findViewById(R.id.file_date_added_text);
-            cardView = v.findViewById(R.id.card_view);
-        }
     }
 
     @Override
@@ -304,5 +286,20 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
 
         AlertDialog alert = confirmDelete.create();
         alert.show();
+    }
+
+    public static class RecordingsViewHolder extends RecyclerView.ViewHolder {
+        protected TextView vName;
+        protected TextView vLength;
+        protected TextView vDateAdded;
+        protected View cardView;
+
+        public RecordingsViewHolder(View v) {
+            super(v);
+            vName = (TextView) v.findViewById(R.id.file_name_text);
+            vLength = (TextView) v.findViewById(R.id.file_length_text);
+            vDateAdded = (TextView) v.findViewById(R.id.file_date_added_text);
+            cardView = v.findViewById(R.id.card_view);
+        }
     }
 }

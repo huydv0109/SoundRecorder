@@ -1,4 +1,4 @@
-package com.danielkim.soundrecorder;
+package com.ayanne.soundrecorder;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
-import com.danielkim.soundrecorder.listeners.OnDatabaseChangedListener;
+import com.ayanne.soundrecorder.listeners.OnDatabaseChangedListener;
 
 import java.util.Comparator;
 
@@ -15,24 +15,9 @@ import java.util.Comparator;
  * Created by Daniel on 12/29/2014.
  */
 public class DBHelper extends SQLiteOpenHelper {
-    private Context mContext;
-
-    private static final String LOG_TAG = "DBHelper";
-
-    private static OnDatabaseChangedListener mOnDatabaseChangedListener;
-
     public static final String DATABASE_NAME = "saved_recordings.db";
+    private static final String LOG_TAG = "DBHelper";
     private static final int DATABASE_VERSION = 1;
-
-    public static abstract class DBHelperItem implements BaseColumns {
-        public static final String TABLE_NAME = "saved_recordings";
-
-        public static final String COLUMN_NAME_RECORDING_NAME = "recording_name";
-        public static final String COLUMN_NAME_RECORDING_FILE_PATH = "file_path";
-        public static final String COLUMN_NAME_RECORDING_LENGTH = "length";
-        public static final String COLUMN_NAME_TIME_ADDED = "time_added";
-    }
-
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
@@ -42,9 +27,19 @@ public class DBHelper extends SQLiteOpenHelper {
                     DBHelperItem.COLUMN_NAME_RECORDING_FILE_PATH + TEXT_TYPE + COMMA_SEP +
                     DBHelperItem.COLUMN_NAME_RECORDING_LENGTH + " INTEGER " + COMMA_SEP +
                     DBHelperItem.COLUMN_NAME_TIME_ADDED + " INTEGER " + ")";
-
     @SuppressWarnings("unused")
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + DBHelperItem.TABLE_NAME;
+    private static OnDatabaseChangedListener mOnDatabaseChangedListener;
+    private Context mContext;
+
+    public DBHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mContext = context;
+    }
+
+    public static void setOnDatabaseChangedListener(OnDatabaseChangedListener listener) {
+        mOnDatabaseChangedListener = listener;
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -54,15 +49,6 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-    }
-
-    public DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        mContext = context;
-    }
-
-    public static void setOnDatabaseChangedListener(OnDatabaseChangedListener listener) {
-        mOnDatabaseChangedListener = listener;
     }
 
     public RecordingItem getItemAt(int position) {
@@ -105,14 +91,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Context getContext() {
         return mContext;
-    }
-
-    public class RecordingComparator implements Comparator<RecordingItem> {
-        public int compare(RecordingItem item1, RecordingItem item2) {
-            Long o1 = item1.getTime();
-            Long o2 = item2.getTime();
-            return o2.compareTo(o1);
-        }
     }
 
     public long addRecording(String recordingName, String filePath, long length) {
@@ -158,5 +136,22 @@ public class DBHelper extends SQLiteOpenHelper {
             //mOnDatabaseChangedListener.onNewDatabaseEntryAdded();
         }
         return rowId;
+    }
+
+    public static abstract class DBHelperItem implements BaseColumns {
+        public static final String TABLE_NAME = "saved_recordings";
+
+        public static final String COLUMN_NAME_RECORDING_NAME = "recording_name";
+        public static final String COLUMN_NAME_RECORDING_FILE_PATH = "file_path";
+        public static final String COLUMN_NAME_RECORDING_LENGTH = "length";
+        public static final String COLUMN_NAME_TIME_ADDED = "time_added";
+    }
+
+    public class RecordingComparator implements Comparator<RecordingItem> {
+        public int compare(RecordingItem item1, RecordingItem item2) {
+            Long o1 = item1.getTime();
+            Long o2 = item2.getTime();
+            return o2.compareTo(o1);
+        }
     }
 }
